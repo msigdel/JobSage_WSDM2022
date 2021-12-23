@@ -261,7 +261,7 @@
 \begin{abstract}
 %Graph convolutional networks (GCNs) technique is powerful in learning graph-structured data by integrating node features and topological structure which has been applied on the representation learning in the recommender systems. The GCN-based methods encode both item content information and the historical collaborative signal of user-item interactions to represent items in the embedding space. The user-item interaction information enhanced the performance of representation, but it suffers from cold-start problems since collaborative signals are missing for any new items. 
 
-Graph convolutional networks (GCNs) are very powerful in learning graph-structured data by integrating features from node and its local neighborhood. GCN-based methods can encode features of nodes (items) together with the collaborative signals of user-item interactions to learn the embedding. However, it suffers from cold-start problem as the collaborative signals would be missing for any new nodes. We propose a novel GCN-based representation learning framework for recommender systems by constructing
+Graph convolutional networks (GCNs) are very powerful in learning graph-structured data by integrating features from node and its local neighborhood. GCN-based methods can encode features of nodes (items) together with the collaborative signals of user-item interactions to learn the embedding. However, it suffers from cold-start problem as the collaborative signals would be missing for any new nodes. Here we propose a novel GCN-based representation learning framework for recommender systems by constructing
 content and behavioral data into a double connected and weighted hyper-network. Empirical studies on job recommendation scenario shows the effectiveness of our method in representing all nodes in the graph and eliminating the cold-start problem. 
 
 \end{abstract}
@@ -467,7 +467,7 @@ Table~\ref{tab:comp} shows the results of the head-to-head comparison between DW
  
 
 \section{Conclusion and future work}
-We proposed a GCN-based approach to encode item features and user-item interaction information into the graph structure to represent items. The new embeddings are capable to capture content features of items, and also the behavioral information of users on the related items. Moreover, it can fully overcome cold-start problem. In this research, we only discuss on the representation learning on the items, but we believe the framework can be easily extended to the representation learning on users, or on users and items in the shared space. 
+We proposed a GCN-based approach to encode item features and user-item interaction information into the graph structure to represent items. The new embeddings are capable to capture content features of items, and also the behavioral information of users on the related items. Moreover, it can fully overcome cold-start problem. In this research, we only discussed on the representation learning on the items, but the framework can be easily extended to the representation learning on users, or on users and items in the shared space. In the future, we will be looking into experimenting in production and evaluating against other state-of-art methods.
 
 %%
 %% The acknowledgments section is defined using the "acks" environment
