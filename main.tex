@@ -276,33 +276,15 @@ content and behavioral data into a double connected and weighted hyper-network. 
 %%
 \begin{CCSXML}
 <ccs2012>
- <concept>
-  <concept_id>10010520.10010553.10010562</concept_id>
-  <concept_desc>Computer systems organization~Embedded systems</concept_desc>
-  <concept_significance>500</concept_significance>
- </concept>
- <concept>
-  <concept_id>10010520.10010575.10010755</concept_id>
-  <concept_desc>Computer systems organization~Redundancy</concept_desc>
-  <concept_significance>300</concept_significance>
- </concept>
- <concept>
-  <concept_id>10010520.10010553.10010554</concept_id>
-  <concept_desc>Computer systems organization~Robotics</concept_desc>
-  <concept_significance>100</concept_significance>
- </concept>
- <concept>
-  <concept_id>10003033.10003083.10003095</concept_id>
-  <concept_desc>Networks~Network reliability</concept_desc>
-  <concept_significance>100</concept_significance>
- </concept>
+<concept>
+<concept_id>10010147.10010178.10010187.10010188</concept_id>
+<concept_desc>Computing methodologies~Semantic networks</concept_desc>
+<concept_significance>300</concept_significance>
+</concept>
 </ccs2012>
 \end{CCSXML}
 
-\ccsdesc[500]{Computer systems organization~Embedded systems}
-\ccsdesc[300]{Computer systems organization~Redundancy}
-\ccsdesc{Computer systems organization~Robotics}
-\ccsdesc[100]{Networks~Network reliability}
+\ccsdesc[300]{Computing methodologies~Semantic networks}
 
 %%
 %% Keywords. The author(s) should pick words that accurately describe
@@ -333,7 +315,7 @@ Personalised recommender systems have become a crucial component in any online s
 
 Several studies have been done to model and train graph-structured data.  Recently, Graph Convolutional Networks (GCNs) \cite{kipf2016variational,kipf2016semi,hamilton2017inductive} have gained increasing attention and have been shown to be very powerful in representation learning. The original GCN algorithm~\cite{kipf2016semi} is designed in a transductive setting and~\cite{kipf2016variational} requires known full graph Laplacian. The extended GCN framework GraphSage~\cite{kipf2016variational} is in an inductive setting to learn the embedding function which can be generalized to unseen nodes and subgraphs. Here, we further extend GraphSage to a weighted inductive model to mostly reduce the impact of noise contained in the graph structure.  
 
-In recommendation applications, GCNs provide powerful and systematic tools to explore multi-hop relationships on the graph-structure data incorporating abundant data sources. The abilities to explicitly encode the crucial collaborative signal (i.e. user-item interactions) is one of the biggest reasons for the remarkable success of GCNs in recommender systems. However, if the interaction data is simply represented by a bipartite graph between user and item nodes only ~\cite{ying2018graph,eksombatchai2018pixie}, cold-start problem becomes crucial limitation since the association between items to users would be missing for new items. In this research, we first propose a novel double connected and weighted graph structure to encode the content-based data sources and collaborative signals, then apply our weighted GCNs over the customized graph for a unified perspective to sufficiently benefit from GCNs and eliminate cold-start problem. We validate the effectiveness of our method (referred to Double Weight GCN, DWGCN for short) on real-world data for job recommendation.
+In recommendation applications, GCNs provide powerful and systematic tools to explore multi-hop relationships on the graph-structure data incorporating abundant data sources. The abilities to explicitly encode the crucial collaborative signal (i.e. user-item interactions) is one of the biggest reasons for the remarkable success of GCNs in recommender systems. However, if the interaction data is simply represented by a bipartite graph between user and item nodes only ~\cite{ying2018graph,eksombatchai2018pixie}, cold-start problem becomes crucial limitation since the association between items to users would be missing for new items. In this research, we first propose a novel double connected and weighted graph structure to encode the content-based data sources and collaborative signals, then apply our weighted GCNs over the customized graph for a unified perspective to sufficiently benefit from GCNs and eliminate cold-start problem. We validate the effectiveness of our method (referred to Double Weighted GCN, DWGCN for short) on real-world data for job recommendation.
 
 %The core idea in Graph Convolutional Networks (GCNs) is to attractively aggregate feature information from local graph neighborhoods by neural networks. GCN-based methods can leverage both content information and graph structure. However, for new items, the association between items to users would be missing, leading to the cold-start problem.
 
@@ -463,15 +445,12 @@ where $P_u$ denotes the distribution of negative samples for item $u$, $N$ is th
 To enforce the model to learn the parameters to capture the difference between strong and weak connections, instead of uniformly sampling negative instances from the entire set of nodes, we consider the connections with small weights as the hard negative samples. 
 
 \section{Experiments} \label{Experiments}
-The generated embeddings are tested and evaluated with a real dataset from job marketplace
-%via CareerBuilder.com - commented for double blind
-for job recommendation task. We recommend to users the top $100$ closest jobs in the embedding space to the most recently applied jobs (source jobs). To implementation our approach in the job domain, we first construct the H-network $G=(V_I,E_I\cup E_I',\omega_{\mathcal{F}},\omega_{\mathcal{C}})$ following Algorithm~\ref{al:hnet}. Let $V_I$ be the active job set. To simplify the evaluation, we considered only the jobs covered by enough co-apps i.,e co-apps$\geq20$.  The "apply" behavior is considered in  $\Ccal$ and filters related to job titles, categories, requested skills, location, etc are considered for $\Fcal$. More specifically, if there is a user $u$ applied to both jobs $j_1$ and $j_2$, then $j_1j_2\in E_I'$ and its weight $\omega_{\Ccal}(j_1j_2)$ is measured by the co-apply counts (co-apps). On the other hand, define connections $j_1j_2\in E_I$ if jobs $j_1,j_2$ have the same posted job title, or same/similar carotene~\cite{wang2019deepcarotene}, or the same requested skills~\cite{javed2017large}, or sim-score $\geq0.9$ where the sim-score is the cosine similarity score of the content-based embeddings by DLEM~\cite{zhao:2021embedding}. The weight function $\omega_{\Fcal}$ is defined by an aggregated scores on filter scores and distance that the parameters are decided by the parameter tuning.  We normalize both $\omega_{\Fcal}$ and $\omega_{\Ccal}$, then use $\omega_{\Fcal}(uv)+\omega_{\Ccal}(uv)<1$ for $uv\in E_I\cup E_I'$ as hard filter to filter out weak connections.
+We test and evaluate the generated embeddings on a sample dataset from a real job marketplace for job recommendation task. The goal is to find the closest jobs (for example, top 100) in the embedding space to the most recently applied job (source job) to recommend to the user.
+To test our approach in this domain, we first construct the H-network $G=(V_I,E_I\cup E_I',\omega_{\mathcal{F}},\omega_{\mathcal{C}})$ following Algorithm~\ref{al:hnet}. Let $V_I$ be the set of active jobs. To simplify the evaluation, we considered only the jobs covered by enough co-apps i.,e co-apps$\geq20$.  The "apply" behavior is considered in $\Ccal$ and filters related to job titles, categories, skills, location, etc. are considered for $\Fcal$. More specifically, if a user $u$ applied to both the jobs $j_1$ and $j_2$, then $j_1j_2\in E_I'$ and its weight $\omega_{\Ccal}(j_1j_2)$ is measured by the no. of co-applications (co-apps). On the other hand, we define connections $j_1j_2\in E_I$ if jobs $j_1,j_2$ have the same job title, or normalized job title ~\cite{wang2019deepcarotene}, or common skills ~\cite{javed2017large}, or sim-score $\geq0.9$, where the sim-score is the cosine similarity score using the content-based embeddings by DLEM~\cite{zhao:2021embedding}. The weight function $\omega_{\Fcal}$ is defined by an aggregated score on filter scores and distance, where the parameters are decided by the parameter tuning.  We normalize both $\omega_{\Fcal}$ and $\omega_{\Ccal}$, then use $\omega_{\Fcal}(uv)+\omega_{\Ccal}(uv)<1$ for $uv\in E_I\cup E_I'$ as hard filters to filter out weak connections.
 
-The job set $V_I$ is split into training and testing (i.e. posted in the most recent 3 days) job sets. In the testing, we suppose all of test jobs are new posted without any user interaction signals detected. Overall we use 615,000 pairs of positive training examples and 20 negative examples per node. 
-%
-The 150-dimensional job embeddings by DLEM~\cite{zhao:2021embedding} concatenated with the 3-dimensional Cartesian coordinates transformed from the spherical coordinates of latitude and longitude are used as features. We also evaluate the performance of DWGCN against DLEM~\cite{zhao:2021embedding}  which is the  state-of-the-art content-based method to embed job description, title to numerical vectors by multiple neural networks. Furthermore, we conduct ablation studies and consider several variants of aggregator functions defined in \cite{hamilton2017inductive} for DWGCN: Mean, Meanpool and GCN. For all the variants, we set the depth $K=2$, sample sizes $s_1=25,s_2=10$, and the hidden and output dimensions to be both 128.
+The job set $V_I$ is split into training (jobs posted over a week), and testing (jobs posted in the next 3 days after the week). For testing, we consider all the test jobs as new and do not have any interaction signal. Overall we use 615,000 pairs of positive training examples and 20 negative examples per node.
 
-
+We compare the performance of DWGCN with DLEM ~\cite{zhao:2021embedding} which is the content-based method to embed job title, description, and skills. DLEM combines 150-dimensional job embeddings with 3-dimensional Cartensian coordinates transformed from the spherical coordinates (latitude and longitude). Furthermore, we conduct ablation studies and consider several variants of aggregator functions defined in \cite{hamilton2017inductive} for DWGCN: Mean, Meanpool and GCN. For all these variants, we set the depth $K=2$, sample sizes $s_1=25,s_2=10$, and the hidden and output dimensions to be both 128.
 
 % %\subsubsection{Data preparation}
 % Since the DWGCN can efficiently represent unseen nodes in the network, we only train the model in a subgraph. To evaluate the performance of new embeddings by the users' application behaviors, we only consider nodes covered by enough co-apply edges. Thus    
@@ -487,8 +466,7 @@ The 150-dimensional job embeddings by DLEM~\cite{zhao:2021embedding} concatenate
 % \end{figure}
 %\subsubsection{Features used for learning and baselines}
 
-Table~\ref{tab:comp} shows the results of the head-to-head comparison between DWGCN compiled with three different aggregator functions and the baseline DLEM~\cite{zhao:2021embedding} on the co-apps where the method wins the DLEM for a source job $j$ if there are more co-apps on job $j$ and its recommended jobs. The results show that the embeddings generated by DWGCN outperform DLEM in finding the most relevant jobs to the users. Figure~\ref{fig:data_vis} illustrates the t-distributed stochastic neighbor embedding (t-SNE) plots of test sample jobs’ embeddings obtained from DWGCN-GCN colored with the carotene categories. It shows that our approach is also effective in capturing the 
-content information of jobs as the job cohorts with different colors are clearly clustered in different regions. 
+Table~\ref{tab:comp} shows the results of the head-to-head comparison between DWGCN compiled with three different aggregator functions and the baseline DLEM~\cite{zhao:2021embedding}. For a source job, a method wins over the other if the overlap between the recommended jobs and the expected top jobs (based on the co-app) is higher. Results show that the embeddings generated by DWGCN outperformed DLEM in finding the most relevant jobs to recommend to the users. Figure~\ref{fig:data_vis} illustrates the t-distributed stochastic neighbor embedding (t-SNE) plots of test sample jobs’ embeddings obtained from DWGCN-GCN colored with the job categories. This shows that our approach is also effective in capturing the content information of jobs as the job cohorts with different colors are clearly clustered in different regions.
 
 % \begin{table}[t]
 %   \caption{Head-to-head comparison on relevancy of source job and recommended jobs by co-apps counts}
@@ -517,7 +495,7 @@ content information of jobs as the job cohorts with different colors are clearly
     DWGCN-GCN & \textbf{61.49\%} & 15.77\% & 22.75\%\\
   \bottomrule
 \end{tabular}
-      \captionof{table}{Head-to-head comparison with DLEM on relevancy of source job and recommended jobs by co-apps}
+      \captionof{table}{Head-to-head comparison with DLEM for source to recommended jobs based on co-apps}
       \label{tab:comp}
       \vspace{5em}
     \end{minipage}
@@ -525,14 +503,16 @@ content information of jobs as the job cohorts with different colors are clearly
   \begin{minipage}[b]{0.49\textwidth}
     \centering
     \includegraphics[width=\textwidth]{data_vis3.png}
-    \captionof{figure}{t-SNE plot of job embedding vectors from DWGCN-GCN which are color-labeled by carotene catogories and annotated with normalized job titles}
+    \captionof{figure}{t-SNE plot of job embedding vectors from DWGCN-GCN which are color-labeled by job categories and annotated with normalized job titles}
     \label{fig:data_vis}
   \end{minipage}
   \end{minipage}
   \vspace{0em}
  
 \section{Conclusion and future work}
-We propose a weighted GCN-based approach to encode item features and user-item interaction information into the graph structure to represent items. The new embeddings are able to capture content features of items, as well as the behavioral information of users on the related items. Moreover, it can fully overcome cold-start problem. In this work, we only discussed the representation learning for items, but the framework can be easily extended to representation learning on users, or on users and items in the shared space. 
+We proposed a weighted GCN-based approach to encode item features and user-item interaction information into the graph structure to represent items. The new embeddings are able to capture content features of items, as well as the behavioral information of users on the related items. Moreover, it can fully overcome cold-start problem. 
+In this work, we only discussed the representation learning for items, but the framework can be easily extended to representation learning on users, or on users and items in the shared space. 
+We are going to to evaluate the performance of our model with A/B experiments and compare with other state-of-art methods.
 
 %%
 %% The acknowledgments section is defined using the "acks" environment
